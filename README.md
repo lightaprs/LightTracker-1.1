@@ -12,7 +12,7 @@ LightTracker 1.1 will be available on https://shop.qrp-labs.com/lora for order s
 
 **LightAPRS Tracker - 144 MHz:** https://github.com/lightaprs/LightAPRS-1.0
 
-<img src="images/lighttracker-b-pinout.png" width="600">
+<img src="images/light_tracker_1_1-front_back.jpg" width="600">
 
 **Important :** LightTracker uses unlicensed ISM radio bands which does not require any license to operate. So everyone can use LoRa & LoRaWAN modules.
 
