@@ -1,16 +1,10 @@
 # LightTracker 1.1
 
-LightTracker 1.1 is one of the most affordable, smallest, lightest, powerful and open source LoRa and LoRaWAN trackers available. It makes tracking pico balloons, weather balloons, model rockets, RC aircraft, and anything else that flies simple and easy.
+LightTracker 1.1 (868/915/923MHz) is one of the most affordable, smallest, lightest, powerful and open source LoRa and LoRaWAN trackers available. It makes tracking pico balloons, weather balloons, model rockets, RC aircraft, and anything else that flies simple and easy.
 It is able to report location, altitude, temperature and pressure to the internet (LoRaWAN networks such as Helium and TTN) or direct to another LoRa radio module with a solar panel/super capacitors or just 3xAAA batteries.
 Because LightTracker is open source you can add your own custom sensors via I2C pins.
 
-LightTracker 1.1 will be available on https://shop.qrp-labs.com/lora for order soon. If you need an 2m VHF APRS or LoRa APRS (433MHz) tracker than checkout:
-
-**LightTracker (LoRa APRS) 1.1 - 433MHz:** https://github.com/lightaprs/LightTracker-1.1-433
-
-**LightTracker (LoRa APRS) Plus 1.0 - 433MHz:** https://github.com/lightaprs/LightTracker-Plus-1.0/
-
-**LightAPRS Tracker - 144 MHz:** https://github.com/lightaprs/LightAPRS-1.0
+LightTracker 1.1 will be available on https://shop.qrp-labs.com/lora for order soon.
 
 <img src="images/light_tracker_1_1-front_back.jpg" width="600">
 
@@ -20,6 +14,14 @@ LightTracker 1.1 will be available on https://shop.qrp-labs.com/lora for order s
 
 * BMP180 (Pressure and Temperature Sensor) is obsolete so HP303B is used instead.
 * LSM303DLHC (Accelerometer) is also obsolete so it's removed but we did not add an alternative to keep costs low. (Also telemetry size is reduced in software)
+
+If you need an 2m VHF APRS or LoRa APRS (433MHz) tracker than checkout:
+
+**LightTracker (LoRa APRS) 1.1 - 433MHz:** https://github.com/lightaprs/LightTracker-1.1-433
+
+**LightTracker (LoRa APRS) Plus 1.0 - 433MHz:** https://github.com/lightaprs/LightTracker-Plus-1.0/
+
+**LightAPRS Tracker - 144 MHz:** https://github.com/lightaprs/LightAPRS-1.0
 
 ![image](https://user-images.githubusercontent.com/48382675/135754148-8be7a6b1-d783-4bde-aaed-d4e67c7b3fe4.png)
 
