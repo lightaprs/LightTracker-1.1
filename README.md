@@ -4,7 +4,7 @@ LightTracker 1.1 (868/915/923MHz) is one of the most affordable, smallest, light
 It is able to report location, altitude, temperature and pressure to the internet (LoRaWAN networks such as Helium and TTN) or direct to another LoRa radio module with a solar panel/super capacitors or just 3xAAA batteries.
 Because LightTracker is open source you can add your own custom sensors via I2C pins.
 
-LightTracker 1.1 will be available on https://shop.qrp-labs.com/lora for order soon.
+LightTracker 1.1 is available on https://shop.qrp-labs.com/lora/LightTracker_1_1_868 for order.
 
 <img src="images/light_tracker_1_1-front_back.jpg" width="600">
 
