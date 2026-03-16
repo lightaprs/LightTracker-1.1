@@ -46,13 +46,17 @@ static const u1_t PROGMEM APPEUI[8]={0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0
 static const u1_t PROGMEM APPKEY[16] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}; //helium or ttn
 //*****************************************************************************************************/
 
-//************************** LoRaWAN Settings ********************
-//DO NOT FORGET TO CHANGE YOUR REGION, DEFAULT REGION IS EU. Uncomment your region, but comment other regions
-uint8_t Lorawan_region_code = REGCODE_EU868;//For EU
-//uint8_t Lorawan_region_code = REGCODE_US915;//For North America
-//uint8_t Lorawan_region_code = REGCODE_AS923;//For Asia
-//uint8_t Lorawan_region_code = REGCODE_AU915;//For South America and Australia
-//uint8_t Lorawan_region_code = REGCODE_IN865;//For India and Pakistan
+//************************** LoRaWAN Region Settings ********************
+// !!! IMPORTANT: UNCOMMENT EXACTLY ONE LINE BELOW THAT MATCHES YOUR REGION !!!
+// Flashing the wrong region will prevent joining the network entirely.
+//
+// ---- CHOOSE YOUR REGION (uncomment ONE only) ----
+//uint8_t Lorawan_region_code = REGCODE_EU868;  // Europe (EU868)
+uint8_t Lorawan_region_code = REGCODE_US915;  // USA / Canada / Mexico (US915) - Helium & TTN
+//uint8_t Lorawan_region_code = REGCODE_AU915;  // Australia / New Zealand / South America (AU915)
+//uint8_t Lorawan_region_code = REGCODE_AS923;  // Japan, Singapore, SE Asia (AS923)
+//uint8_t Lorawan_region_code = REGCODE_IN865;  // India / Pakistan (IN865)
+// -------------------------------------------------
 
 const unsigned TX_INTERVAL = 60000;  // Schedule TX every this many miliseconds (might become longer due to duty cycle limitations).
 boolean gpsFixRequiredforTX = true; //By default GPS fix required for telemetry TX (but not required for OTAA join)
@@ -394,9 +398,16 @@ void startJoining() {
           LMIC_setDrTxpow(0,KEEP_TXPOWADJ);              
         }
         
-       //TTN and Helium only supports second sub band (channels 8 to 15)
-       //so we should force BasicMAC to initiate a join with second sub band channels.
-       LMIC_selectChannel(8); 
+       //TTN and Helium only support sub-band 2 (channels 8-15 for 125kHz, channel 65 for 500kHz).
+       //BasicMAC has no LMIC_disableSubBand, so we disable every channel outside sub-band 2
+       //using LMIC_disableChannel(), so JOIN retries never escape to unsupported channels.
+       for (int ch = 0;  ch < 8;  ch++) LMIC_disableChannel(ch);  // sub-band 1 (125kHz)
+       // channels 8-15 (sub-band 2, 125kHz) kept enabled
+       for (int ch = 16; ch < 64; ch++) LMIC_disableChannel(ch);  // sub-bands 3-8 (125kHz)
+       LMIC_disableChannel(64);                                     // 500kHz sub-band 1
+       // channel 65 (500kHz sub-band 2) kept enabled for JOIN
+       for (int ch = 66; ch < 72; ch++) LMIC_disableChannel(ch);  // 500kHz sub-bands 3-8
+       channelNoFor2ndSubBand = 8; // reset TX channel counter
       
       //Australia and New Zeleand   
       } else if (Lorawan_region_code == REGCODE_AU915) {
@@ -409,9 +420,12 @@ void startJoining() {
           LMIC_setDrTxpow(2,KEEP_TXPOWADJ);                         
         }
 
-       //TTN and Helium only supports second sub band (channels 8 to 15)
-       //so we should force BasicMAC to initiate a join with second sub band channels.
-       LMIC_selectChannel(8);
+       //Same sub-band 2 fix as US915 above using LMIC_disableChannel.
+       for (int ch = 0;  ch < 8;  ch++) LMIC_disableChannel(ch);
+       for (int ch = 16; ch < 64; ch++) LMIC_disableChannel(ch);
+       LMIC_disableChannel(64);
+       for (int ch = 66; ch < 72; ch++) LMIC_disableChannel(ch);
+       channelNoFor2ndSubBand = 8; // reset TX channel counter
         
       } 
 
@@ -848,5 +862,4 @@ int32_t readPressure() {
   hp303b.measurePressureOnce(pressure, oversampling);
   return pressure;
   
-  }    
-  
+  }
