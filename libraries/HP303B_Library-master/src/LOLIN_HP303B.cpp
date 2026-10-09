@@ -844,12 +844,18 @@ int16_t LOLIN_HP303B::correctTemp(void)
 void LOLIN_HP303B::init(void)
 {
 	int16_t prodId = readByteBitfield(HP303B__REG_INFO_PROD_ID);
-	if(prodId != HP303B__PROD_ID)
+/*	if(prodId != HP303B__PROD_ID)
 	{
 		//Connected device is not a HP303B
 		m_initFail = 1U;
 		return;
 	}
+	*/
+	if(prodId < 0)
+	{
+		m_initFail = 1U;
+		return;
+	}	
 	m_productID = prodId;
 
 	int16_t revId = readByteBitfield(HP303B__REG_INFO_REV_ID);
